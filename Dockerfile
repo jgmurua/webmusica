@@ -1,4 +1,4 @@
-FROM node:10-alpine as build
+FROM node:20-alpine3.17 as build
 
 # Create app directory
 WORKDIR /usr/scr/app
@@ -17,7 +17,7 @@ COPY scr .
 
 #multistage
 
-FROM node:10-alpine
+FROM node:20-alpine3.17
 
 COPY --from=build /usr/scr/app /
 
