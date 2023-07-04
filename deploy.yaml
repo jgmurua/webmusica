@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webmusica-deployment
+  labels:
+    app: webmusica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webmusica
+  template:
+    metadata:
+      labels:
+        app: webmusica
+    spec:
+      containers:
+      - name: webmusica
+        image: jgmurua/webmusica:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webmusica-service
+  labels:
+    app: webmusica
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: webmusica
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webmusica-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /webmusica(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: webmusica-service
+                port:
+                  number: 80
