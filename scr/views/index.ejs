@@ -4,33 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title%></title>
+    <title>
+        <%= title%>
+    </title>
     <%- include ('partials/head.html') %>
 
 </head>
 
 <body>
-
-    <%- include ('partials/navigation.html')%>
-
+    <center>
+        <%- include ('partials/navigation.html')%>
     <div class="container">
         <header class="row">
             <div class="col-lg-3 text-center">
                 <img src="https://media.tenor.com/0UjruExPRBoAAAAC/happy-cat.gif" class="animated bounceIn" alt="bailanconelgato">
             </div>
-        </header>
-    </div>
-    <!--SECTION ONE-->
-    <div class="container">
-        <header class="row">
-            <div class="col-lg-3 text-center">
-                <iframe src="https://open.spotify.com/embed/playlist/4dYFgC4Y9P80DehJqooh1Y" width="432" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <!--SECTION ONE-->
+            <div class="container">
+                <header class="row">
+                    <div class="col-lg-3 text-center">
+
+                        <iframe src="https://open.spotify.com/embed/playlist/4dYFgC4Y9P80DehJqooh1Y" width="432"
+                            height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+                    </div>
+                </header>
             </div>
-        </header>
-    </div>
-	
-       
-	
+    </center>
+
+
     <%- include ('partials/footer.html') %>
 </body>
 
