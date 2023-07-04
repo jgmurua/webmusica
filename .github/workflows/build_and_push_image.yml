@@ -18,9 +18,6 @@ jobs:
           uses: docker/build-push-action@v2
           with:
             push: true
-            tags: ${{ secrets.DOCKER_USERNAME }}/webmusica:${{ github.sha }}
-            build-args: |
-                NODE_VERSION=20
-                APP_VERSION=1.0.0
+            tags: ${{ secrets.DOCKER_USERNAME }}/webmusica:latest
             file: Dockerfile
             context: .
