@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webmusica-deployment
+  labels:
+    app: webmusica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webmusica
+  template:
+    metadata:
+      labels:
+        app: webmusica
+    spec:
+      containers:
+      - name: webmusica
+        image: jgmurua/webmusica:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webmusica-service
+  labels:
+    app: webmusica
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: webmusica
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: webmusica-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/class: alb
+    alb.ingress.kubernetes.io/group.name: webmusica # el limkte de target group es de N reglas
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /webmusica
+            pathType: Prefix
+            backend:
+              service:
+                name: webmusica-service
+                port:
+                  number: 80
