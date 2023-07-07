@@ -30,13 +30,13 @@ metadata:
   labels:
     app: webmusica
 spec:
-  type: ClusterIP
+  type: NodePort # alb no soporta ClusterIP, creo
   ports:
   - port: 80
   selector:
     app: webmusica
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: webmusica-ingress
@@ -44,13 +44,13 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/class: alb
-    alb.ingress.kubernetes.io/group.name: webmusica # el limkte de target group es de N reglas
+    alb.ingress.kubernetes.io/group.name: webmusica # el limite de target group es de N reglas
 spec:
   rules:
     - http:
         paths:
-          - path: /webmusica
-            pathType: Prefix
+          - path: /
+            pathType: Exact
             backend:
               service:
                 name: webmusica-service
